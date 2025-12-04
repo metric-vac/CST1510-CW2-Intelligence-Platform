@@ -1,9 +1,0 @@
-#!/bin/sh
-'''exec' "/home/m3tric/Documents/college/Year 1/CST1510/CW2/CST1510_CW2_Updated/venv/bin/python3" "$0" "$@"
-' '''
-import sys
-from pygments.cmdline import main
-if __name__ == '__main__':
-    if sys.argv[0].endswith('.exe'):
-        sys.argv[0] = sys.argv[0][:-4]
-    sys.exit(main())
