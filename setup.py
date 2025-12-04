@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Setup script to initialize database with all data
-Run this once before starting the Streamlit app
-"""
 
 from app.data.db import create_tables, connect_database
 from app.services.db_auth import migrate_users_from_file
