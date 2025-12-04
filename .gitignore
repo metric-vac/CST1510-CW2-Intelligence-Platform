@@ -7,3 +7,4 @@ env/
 .streamlit/secrets.toml
 .DS_Store
 *.log
+venv/
