@@ -14,7 +14,7 @@ from app.data.db import get_all_tickets
 
 # Check authentication
 if "logged_in" not in st.session_state:
-    st.set_page_config(page_title="IT Operations Dashboard", page_icon="💻", layout="wide")
+    st.set_page_config(page_title="IT Operations Dashboard", layout="wide")
     st.warning("Please login first")
     st.stop()
 
@@ -23,17 +23,17 @@ if not st.session_state.get("logged_in", False):
     st.stop()
 
 # Header
-st.title("💻 IT Operations Dashboard")
+st.title(" IT Operations Dashboard")
 st.markdown(f"**Administrator:** {st.session_state.username}")
 
 # Navigation
 col1, col2, col3 = st.columns([1, 1, 4])
 with col1:
-    if st.button("🏠 Home"):
-        st.session_state.page = "home"
+    if st.button("Home"):
+        st.session_state.page = "home" 
         st.rerun()
 with col2:
-    if st.button("🛡️ Cybersecurity"):
+    if st.button(" Cybersecurity"):
         st.session_state.page = "cyber_dashboard"
         st.rerun()
 
@@ -53,7 +53,7 @@ df = pd.DataFrame([dict(row) for row in tickets])
 df['created_at'] = pd.to_datetime(df['created_at'])
 
 # Key Metrics
-st.markdown("### 📊 Key Metrics")
+st.markdown("### Key Metrics")
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
@@ -75,7 +75,7 @@ with col4:
 st.divider()
 
 # PROBLEM ANALYSIS: Staff Performance
-st.markdown("### 🎯 Problem Analysis: Service Desk Performance")
+st.markdown("### Problem Analysis: Service Desk Performance")
 
 st.info("""
 **Problem Statement:** The IT support team is struggling with slow resolution times. 
@@ -107,16 +107,6 @@ if len(resolved_df) > 0:
         worst_performer = staff_performance.iloc[0]
         best_performer = staff_performance.iloc[-1]
         
-        st.error(f"""
-        **🚨 PERFORMANCE ANOMALY DETECTED:** {worst_performer['assigned_to']} has significantly 
-        slower resolution times at **{worst_performer['avg_hours']:.1f} hours** compared to the team average.
-        This staff member is causing the greatest delay in ticket resolution.
-        """)
-        
-        st.success(f"""
-        **✓ BEST PERFORMER:** {best_performer['assigned_to']} has the fastest average resolution 
-        time at **{best_performer['avg_hours']:.1f} hours**, demonstrating efficient ticket handling.
-        """)
     
     with col2:
         st.markdown("#### Staff Performance Table")
@@ -125,7 +115,7 @@ if len(resolved_df) > 0:
 st.divider()
 
 # Priority and Status Analysis
-st.markdown("### 📈 Priority & Status Breakdown")
+st.markdown("### Priority & Status Breakdown")
 
 col1, col2 = st.columns(2)
 
@@ -143,7 +133,7 @@ st.divider()
 
 # Detailed Staff Analysis
 if len(resolved_df) > 0:
-    st.markdown("### 👥 Detailed Staff Performance Metrics")
+    st.markdown("### Detailed Staff Performance Metrics")
     
     staff_detailed = resolved_df.groupby('assigned_to')['resolution_time_hours'].agg([
         ('Total Tickets', 'count'),
@@ -159,22 +149,11 @@ if len(resolved_df) > 0:
 
 st.divider()
 
-# Recommendations
-st.markdown("### 💡 Recommended Actions")
-st.markdown("""
-Based on the analysis, the IT operations team should:
-- Conduct performance review with underperforming staff member
-- Check if workload distribution is fair across the team
-- Pair slower performers with faster ones for mentoring and training
-- Set clear performance targets and track progress weekly
-- Look into automating routine tasks to free up time for complex issues
-- Consider implementing a ticket routing system based on staff expertise
-""")
 
 st.divider()
 
 # Recent Tickets Table
-st.markdown("### 📋 Recent Tickets")
+st.markdown("### Recent Tickets")
 
 # Show most recent tickets
 recent_df = df.sort_values('created_at', ascending=False).head(20)

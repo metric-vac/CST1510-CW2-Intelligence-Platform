@@ -14,7 +14,7 @@ from app.data.db import get_all_incidents
 
 # Check authentication
 if "logged_in" not in st.session_state:
-    st.set_page_config(page_title="Cybersecurity Dashboard", page_icon="🛡️", layout="wide")
+    st.set_page_config(page_title="Cybersecurity Dashboard", layout="wide")
     st.warning("Please login first")
     st.stop()
 
@@ -23,18 +23,18 @@ if not st.session_state.get("logged_in", False):
     st.stop()
 
 # Header
-st.title("🛡️ Cybersecurity Dashboard")
-st.markdown(f"**Analyst:** {st.session_state.username}")
+st.title("Cybersecurity Dashboard")
+st.markdown(f"Analyst: {st.session_state.username}")
 
 # Navigation
 col1, col2, col3 = st.columns([1, 1, 4])
 with col1:
-    if st.button("🏠 Home"):
-        st.session_state.page = "home"
+    if st.button("Home"):
+        st.session_state.page = "home"  
         st.rerun()
 with col2:
-    if st.button("💻 IT Operations"):
-        st.session_state.page = "it_dashboard"
+    if st.button("IT Operations"):
+        st.session_state.page = "it_dashboard"  
         st.rerun()
 
 st.divider()
@@ -53,7 +53,7 @@ df = pd.DataFrame([dict(row) for row in incidents])
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 # Key Metrics
-st.markdown("### 📊 Key Metrics")
+st.markdown("Key Metrics")
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
@@ -75,17 +75,13 @@ with col4:
 st.divider()
 
 # PROBLEM ANALYSIS: Phishing Trend
-st.markdown("### 🎯 Problem Analysis: Incident Response Bottleneck")
+st.markdown("### Problem Analysis: Incident Response Bottleneck")
 
-st.info("""
-**Problem Statement:** The security team is facing a surge in Phishing incidents, 
-leading to a growing backlog of high-severity, unresolved cases.
-""")
 
 col1, col2 = st.columns([2, 1])
 
 with col1:
-    st.markdown("#### Incident Trend Over Time")
+    st.markdown("Incident Trend Over Time")
     
     # Group by date and category
     df['date'] = df['timestamp'].dt.date
@@ -96,13 +92,9 @@ with col1:
     
     st.line_chart(pivot_data)
     
-    st.success(f"""
-    **Key Finding:** Phishing accounts for **{phishing_pct:.1f}%** of all incidents, 
-    significantly higher than other threat categories.
-    """)
 
 with col2:
-    st.markdown("#### Incident Distribution")
+    st.markdown("Incident Distribution")
     
     category_counts = df['category'].value_counts()
     st.bar_chart(category_counts)
@@ -110,47 +102,38 @@ with col2:
 st.divider()
 
 # Severity and Status Analysis
-st.markdown("### 📈 Severity & Status Analysis")
+st.markdown("Severity & Status Analysis")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("#### By Severity")
+    st.markdown("By Severity")
     severity_counts = df['severity'].value_counts()
     st.bar_chart(severity_counts)
 
 with col2:
-    st.markdown("#### By Status")
+    st.markdown("By Status")
     status_counts = df['status'].value_counts()
     st.bar_chart(status_counts)
 
 st.divider()
 
 # Detailed Analysis
-st.markdown("### 🔍 Detailed Incident Analysis")
+st.markdown("Detailed Incident Analysis")
 
 # Category breakdown
-st.markdown("#### Incidents by Category and Status")
+st.markdown("Incidents by Category and Status")
 category_status = pd.crosstab(df['category'], df['status'])
 st.dataframe(category_status, use_container_width=True)
 
 st.divider()
 
-# Recommendations
-st.markdown("### 💡 Recommended Actions")
-st.markdown("""
-Based on the analysis, the security team should:
-- Increase staffing for phishing incident response
-- Implement better email filtering to reduce incoming phishing attempts  
-- Set clear response time targets (SLAs) for different severity levels
-- Provide regular security awareness training to reduce user susceptibility
-- Consider automated tools to help analyze and categorize incidents faster
-""")
+
 
 st.divider()
 
 # Recent Incidents Table
-st.markdown("### 📋 Recent Incidents")
+st.markdown("Recent Incidents")
 
 # Show most recent incidents
 recent_df = df.sort_values('timestamp', ascending=False).head(20)

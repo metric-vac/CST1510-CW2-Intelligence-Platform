@@ -14,7 +14,7 @@ sys.path.append(str(Path(__file__).parent))
 from app.data.db import create_tables
 from app.services.db_auth import login_user_db, register_user_db, migrate_users_from_file
 
-st.set_page_config(page_title="Intelligence Platform", page_icon="🔐", layout="wide")
+st.set_page_config(page_title="Intelligence Platform", layout="wide")
 
 # Initialize database and migrate users
 try:
@@ -32,7 +32,10 @@ if "page" not in st.session_state:
     st.session_state.page = "home"
 
 # Check which page to show
-if st.session_state.logged_in and st.session_state.page == "cyber_dashboard":
+if st.session_state.logged_in and st.session_state.page == "home":
+    exec(open("pages/0_Home_Dashboard.py").read())
+    st.stop()
+elif st.session_state.logged_in and st.session_state.page == "cyber_dashboard":
     exec(open("pages/1_Cybersecurity_Dashboard.py").read())
     st.stop()
 elif st.session_state.logged_in and st.session_state.page == "it_dashboard":
@@ -41,20 +44,20 @@ elif st.session_state.logged_in and st.session_state.page == "it_dashboard":
 
 # If logged in, show dashboard options
 if st.session_state.logged_in:
-    st.success(f"✓ Logged in as **{st.session_state.username}**")
+    st.success(f" Logged in as {st.session_state.username}")
     
-    st.markdown("### 📊 Select Dashboard")
+    st.markdown("### Select Dashboard")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        if st.button("🛡️ Cybersecurity Dashboard", use_container_width=True):
+        if st.button(" Cybersecurity Dashboard", use_container_width=True):
             st.session_state.page = "cyber_dashboard"
             st.rerun()
         st.caption("Incident analysis & phishing trends")
     
     with col2:
-        if st.button("💻 IT Operations Dashboard", use_container_width=True):
+        if st.button(" IT Operations Dashboard", use_container_width=True):
             st.session_state.page = "it_dashboard"
             st.rerun()
         st.caption("Service desk & staff performance")
@@ -92,7 +95,7 @@ with tab_login:
         else:
             st.error("Invalid username or password.")
     
-    st.info("💡 **Demo accounts:** johnDoe, NebilAbubaker, or metricvac")
+    st.info(" Demo accounts: Username: johndoe, password: helloworld ")
 
 # REGISTER TAB
 with tab_register:
@@ -110,6 +113,6 @@ with tab_register:
         elif len(new_password) < 6:
             st.error("Password must be at least 6 characters.")
         elif register_user_db(new_username, new_password):
-            st.success("✓ Account created! You can now log in.")
+            st.success(" Account created! You can now log in.")
         else:
             st.error("Username already exists.")
