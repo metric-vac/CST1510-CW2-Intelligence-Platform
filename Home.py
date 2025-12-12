@@ -90,7 +90,7 @@ with tab_login:
         if login_user_db(login_username, login_password):
             st.session_state.logged_in = True
             st.session_state.username = login_username
-            st.success(f"Welcome back, {login_username}!")
+            st.success(f"Welcome back, {login_username}")
             st.rerun()
         else:
             st.error("Invalid username or password.")
